@@ -1,7 +1,7 @@
 var can1, can2, ctx1, ctx2
 var lastTime, deltaTime
 var canWidth, canHeight
-var bgPic = new Image()
+var bgPic, ane, fruit, mom
 document.body.onload = game
 
 function game() {
@@ -20,7 +20,17 @@ function init(params) {
   canWidth = can1.width
   canHeight = can1.height
 
+  bgPic = new Image()
   bgPic.src = './img/background.jpg'
+
+  ane = new aneObj();
+  ane.init()
+
+  fruit = new fruitObj()
+  fruit.init()
+
+  mom = new momObj()
+  mom.init()
 }
 
 function gameloop(params) {
@@ -30,4 +40,9 @@ function gameloop(params) {
   lastTime = now
 
   drawBackground()
+  ane.draw()
+  fruitMonitor()
+  fruit.draw()
+  ctx1.clearRect(0, 0, canWidth, canHeight)
+  mom.draw()
 }
