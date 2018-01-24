@@ -5,6 +5,16 @@ var canWidth, canHeight
 var bgPic, ane, fruit
 var mom, baby
 var mx, my
+var babyTail = []
+var babyEye = []
+var babyBody = []
+var momTail = []
+var momEye = []
+var momBodyBlue = []
+var momBodyOrange = []
+var data, wave, halo
+var dust
+var dustPic = []
 document.body.onload = game
 
 function game() {
@@ -41,6 +51,48 @@ function init(params) {
 
   mx = canWidth * 0.5
   my = canHeight * 0.5
+
+  for (let i = 0; i < 8; i++) {
+    momTail[i] = new Image()
+    momTail[i].src = './img/bigTail' + i + '.png'
+  }
+  for (let i = 0; i < 2; i++) {
+    momEye[i] = new Image()
+    momEye[i].src = './img/bigEye' + i + '.png'
+  }
+  for (let i = 0; i < 8; i++) {
+    momBodyBlue[i] = new Image()
+    momBodyBlue[i].src = './img/bigSwimBlue' + i + '.png'
+    momBodyOrange[i] = new Image()
+    momBodyOrange[i].src = './img/bigSwim' + i + '.png'
+  }
+
+  for (let i = 0; i < 8; i++) {
+    babyTail[i] = new Image()
+    babyTail[i].src = './img/babyTail' + i + '.png'
+  }
+  for (let i = 0; i < 2; i++) {
+    babyEye[i] = new Image()
+    babyEye[i].src = './img/babyEye' + i + '.png'
+  }
+  for (let i = 0; i < 20; i++) {
+    babyBody[i] = new Image()
+    babyBody[i].src = './img/babyFade' + i + '.png'
+  }
+
+  data = new dataObj()
+  wave = new waveObj()
+  halo = new haloObj()
+  wave.init()
+  halo.init()
+
+  for (let i = 0; i < 7; i++) {
+    dustPic[i] = new Image()
+    dustPic[i].src = './img/dust' + i + '.png'
+
+  }
+  dust = new dustObj()
+  dust.init()
 }
 
 function gameloop(params) {
@@ -56,10 +108,16 @@ function gameloop(params) {
   ctx1.clearRect(0, 0, canWidth, canHeight)
   mom.draw()
   momFruitsCollision()
+  momBabyCollision()
   baby.draw()
+  data.draw()
+  wave.draw()
+  halo.draw()
+  dust.draw()
 }
 
 function onMouseMove(e) {
+  if (data.gameOver) return
   if (e.offSetX || e.layerX) {
     mx = e.offSetX === undefined ? e.layerX : e.offSetX
     my = e.offSetY === undefined ? e.layerY : e.offSetY
