@@ -1,7 +1,10 @@
-var can1, can2, ctx1, ctx2
+var can1, can2
+var ctx1, ctx2
 var lastTime, deltaTime
 var canWidth, canHeight
-var bgPic, ane, fruit, mom
+var bgPic, ane, fruit
+var mom, baby
+var mx, my
 document.body.onload = game
 
 function game() {
@@ -17,6 +20,7 @@ function init(params) {
   can2 = document.querySelector('#canvas2')
   ctx2 = can2.getContext('2d')
 
+  can1.addEventListener('mousemove', onMouseMove, false)
   canWidth = can1.width
   canHeight = can1.height
 
@@ -31,6 +35,12 @@ function init(params) {
 
   mom = new momObj()
   mom.init()
+
+  baby = new babyObj()
+  baby.init()
+
+  mx = canWidth * 0.5
+  my = canHeight * 0.5
 }
 
 function gameloop(params) {
@@ -38,11 +48,20 @@ function gameloop(params) {
   var now = Date.now()
   deltaTime = now - lastTime
   lastTime = now
-
+  if (deltaTime > 40) deltaTime = 40
   drawBackground()
   ane.draw()
   fruitMonitor()
   fruit.draw()
   ctx1.clearRect(0, 0, canWidth, canHeight)
   mom.draw()
+  momFruitsCollision()
+  baby.draw()
+}
+
+function onMouseMove(e) {
+  if (e.offSetX || e.layerX) {
+    mx = e.offSetX === undefined ? e.layerX : e.offSetX
+    my = e.offSetY === undefined ? e.layerY : e.offSetY
+  }
 }

@@ -42,6 +42,9 @@ fruitObj.prototype.born = function(i) {
   var ran = Math.random()
   this.fruitType[i] = ran < 0.3 ? 'blue' : 'orange'
 }
+fruitObj.prototype.dead = function(i) {
+  this.alive[i] = false
+}
 
 function fruitMonitor() {
   var num = 0
